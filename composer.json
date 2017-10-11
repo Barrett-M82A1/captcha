@@ -1,10 +1,10 @@
 {
-    "name": "topthink/think-captcha",
-    "description": "captcha package for thinkphp5",
+    "name": "Barrett-M82A1/captcha",
+    "description": "captcha package",
     "authors": [
         {
-            "name": "yunwuxin",
-            "email": "448901948@qq.com"
+            "name": "Barrett-M82A1",
+            "email": "i@yoyoyo.me"
         }
     ],
     "license": "Apache-2.0",
@@ -12,9 +12,6 @@
     "autoload": {
         "psr-4": {
             "think\\captcha\\": "src/"
-        },
-        "files": [
-            "src/helper.php"
-        ]
+        }
     }
 }
