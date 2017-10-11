@@ -4,7 +4,7 @@
 ## 使用
 
 ### 一、安装
-> composer require Barrett-M82A1/captcha
+> composer require barrett/captcha
 
 ### 二、初始化配置
 引入本扩展库后，在实例化时可以传递配置参数，用于处理不同的场景。
