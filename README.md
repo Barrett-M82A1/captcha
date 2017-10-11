@@ -1,11 +1,12 @@
 # Barrett-captcha
 验证码扩展库
 
-##使用
-###一、安装
+## 使用
+
+### 一、安装
 > composer require Barrett-M82A1/captcha
 
-###二、初始化配置
+### 二、初始化配置
 引入本扩展库后，在实例化时可以传递配置参数，用于处理不同的场景。
 ```php
 $Captcha = new barrett\Captcha(['setZh'=>true,'length'=>4]);
