@@ -10,10 +10,9 @@
 // +----------------------------------------------------------------------
 
 namespace barrett;
-
+use think\facade\Session;
 class Captcha
 {
-    
     protected $config = [
 
         // 验证码加密KEY
@@ -60,7 +59,7 @@ class Captcha
     private $_image = null; // 验证码图片实例
 
     private $_color = null; // 验证码字体颜色
-
+    
     /**
      * 初始化配置信息
      * @param array $config 配置参数
@@ -116,12 +115,9 @@ class Captcha
         $name = $this->_encrypt($code,$scene);
 
         // 保存验证码创建时间
-        $_SESSION[$name] = time();
-
-        if (empty($_SESSION[$name])) {
-            return ['status'=>false,'msg'=>'创建验证码失败','data'=>''];
-        }
-
+        
+        Session::set($name,time());
+        
         return ['status'=>true,'msg'=>'创建成功','data'=>$code];
     }
 
@@ -203,11 +199,7 @@ class Captcha
         $name = $this->_encrypt($code,$scene);
 
         // 保存验证码创建时间
-        $_SESSION[$name] = time();
-
-        if (empty($_SESSION[$name])) {
-            return ['status'=>false,'msg'=>'创建验证码失败','data'=>''];
-        }
+        Session::set($name,time());
 
         ob_start();
         // 输出图像
@@ -222,7 +214,7 @@ class Captcha
      * 验证验证码是否正确
      * @param string $code  用户验证码
      * @param string $scene 场景唯一标识
-     * @return bool 用户验证码是否正确
+     * @return array 用户验证码是否正确
      */
     public function check($code, $scene = '')
     {
@@ -234,20 +226,22 @@ class Captcha
         // SESSION是否存在
         $name = $this->_encrypt($code,$scene);
 
-        if (!isset($_SESSION[$name])) {
+        $token = Session::get($name);
+        
+        if (empty($token)) {
             return ['status'=>false,'msg'=>'验证码错误','data'=>''];
         }
 
         // 检测是否过期
-        if (time() - $_SESSION[$name] > $this->expire) {
+        if (time() - $token > $this->expire) {
             // 销毁验证码
-            unset($_SESSION[$name]);
+            Session::delete($name);
             return ['status'=>false,'msg'=>'验证码已过期','data'=>''];
         }
 
         // 检测是否需要销毁验证码
         if($this->config['destroy']){
-            unset($_SESSION[$name]);
+            Session::delete($name);
         }
 
         return ['status'=>true,'msg'=>'验证通过','data'=>''];
