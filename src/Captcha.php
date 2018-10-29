@@ -67,12 +67,6 @@ class Captcha
      */
     public function __construct($config = [])
     {
-        // 启动SESSION
-        if(session_status() !== PHP_SESSION_ACTIVE){
-            session_start();
-        }
-
-        // 设置配置信息
         $this->config = array_merge($this->config, $config);
     }
 
